@@ -4,7 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const db = new sqlite3.Database(path.join(__dirname, 'database/obituary_platform.db'));
+const db = new sqlite3.Database(path.join(__dirname, 'obituary_platform.db'));
 
 // Middleware
 app.set('view engine', 'ejs');
@@ -58,8 +58,6 @@ app.post('/database.js', (req, res) => {
 });
 
 
-
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
