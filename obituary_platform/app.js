@@ -4,12 +4,12 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const db = new sqlite3.Database(path.join(__dirname, 'obituary_platform.db'));
+const db = new sqlite3.Database('obituary_platform.db');
 
-// Middleware
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware setup
+app.set('view engine', 'ejs'); 
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.static(path.join(__dirname, 'public'))); 
 
 // Create table if not exists
 db.serialize(() => {
@@ -38,12 +38,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/submit', (req, res) => {
-    res.render('obituary_form');
+    res.render('obituary_form'); 
 });
 
-app.post('/database.js', (req, res) => {
+app.post('/submit', (req, res) => {
     const { name, date_of_birth, date_of_death, content, author } = req.body;
-    const slug = name.toLowerCase().replace(/ /g, '-');
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
 
     db.run(`INSERT INTO obituaries (name, date_of_birth, date_of_death, content, author, slug)
             VALUES (?, ?, ?, ?, ?, ?)`,
@@ -57,6 +57,10 @@ app.post('/database.js', (req, res) => {
     });
 });
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
